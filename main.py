@@ -23,41 +23,33 @@ def do_get():
     cmd = request.args['cmd']
 
     # 1、转为压缩私钥 | Convert to compressed private key
-    # Answerer by Mr.Feng Fu:
     if cmd == 'toPrikComp':
         return prik + '01'
 
     # 2、私钥转 WIF 格式 | Convert private key to WIF format
-    # Answerer by :
     elif cmd == 'toPrikWif':
-        
-        return 
+        return byc.encode_privkey(prik, 'wif')
 
     # 3、私钥转普通公钥 | Convert private key to uncompressed public key
-    # Answerer by 
     elif cmd == 'toPubk':
-        return 
+        return byc.privtopub(prik)
 
     # 4、私钥转压缩公钥 | Convert private key to compressed public key
-    # Answerer by 
     elif cmd == 'toPubkComp':
-        return 
+        return byc.compress(byc.privtopub(prik))
 
     # 5、私钥转公钥哈希 (RIPEMD160) | Convert private key to public key hash
-    # Answerer by 
     elif cmd == 'toPubkHash':
-        
-        return 
+        pubk = byc.privtopub(prik)
+        return byc.hash160(byc.safe_from_hex(pubk))
 
     # 6、私钥转普通地址 | Convert private key to uncompressed address
-    # Answerer by 
     elif cmd == 'toAddr':
-        return 
+        return byc.pubtoaddr(byc.privtopub(prik))
 
     # 7、私钥转压缩地址 | Convert private key to compressed address
-    # Answerer by 
     elif cmd == 'toAddrComp':
-        return 
+        return byc.pubtoaddr(byc.compress(byc.privtopub(prik)))
 
     # 未知命令 | Unknown command
     else:
